@@ -9,7 +9,7 @@ import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 import numpy as np
-import scipy.misc as  misc
+import imageio
 #import cv2
 from skimage.metrics import structural_similarity as ssim
 #own library
@@ -59,8 +59,8 @@ def test_quality(opt, dataloader, model, epoch, prefix='', test_channel=3, save_
                 total_iter += 1
 
                 if save_image:
-                    misc.imsave('{}/{}_{}.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), output_)
-                    misc.imsave('{}/{}_bicubic.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), input_)
+                    imageio.imwrite('{}/{}_{}.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), output_.astype(np.uint8))
+                    imageio.imwrite('{}/{}_bicubic.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), input_.astype(np.uint8))
 
         average_sr_psnr_dict = {}
         average_sr_psnr_dict[nLayer] = total_sr_psnr / total_iter
@@ -115,8 +115,8 @@ def test_quality(opt, dataloader, model, epoch, prefix='', test_channel=3, save_
 
                     #save an image
                     if save_image:
-                        misc.imsave('{}/{}_layer{}_{}.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), output_)
-                        misc.imsave('{}/{}_layer{}_{}_bicubic.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), input_)
+                        imageio.imwrite('{}/{}_layer{}_{}.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), output_.astype(np.uint8))
+                        imageio.imwrite('{}/{}_layer{}_{}_bicubic.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), input_.astype(np.uint8))
 
         #print perforamnce
         average_sr_psnr_dict = {}
@@ -226,8 +226,8 @@ def test_static(opt, dataloader, model, epoch, logger, save_image, use_ssim):
         total_iter += 1
 
         if save_image:
-            misc.imsave('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.network), output_np)
-            misc.imsave('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.resize), input_np)
+            imageio.imwrite('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.network), output_np.astype(np.uint8))
+            imageio.imwrite('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.resize), input_np.astype(np.uint8))
 
     average_sr_psnr = total_sr_psnr / total_iter
     average_baseline_psnr = total_baseline_psnr / total_iter
@@ -291,8 +291,8 @@ def test_dynamic(opt, dataloader, model, epoch, logger, save_image, use_ssim):
 
             #save an image
             if save_image:
-                misc.imsave('{}/{}_layer{}_vdsr.png'.format(opt.imageDir, layer, total_iter), output_np)
-                misc.imsave('{}/{}_layer{}_{}.png'.format(opt.imageDir, layer, total_iter, opt.resize), input_np)
+                imageio.imwrite('{}/{}_layer{}_vdsr.png'.format(opt.imageDir, layer, total_iter), output_np.astype(np.uint8))
+                imageio.imwrite('{}/{}_layer{}_{}.png'.format(opt.imageDir, layer, total_iter, opt.resize), input_np.astype(np.uint8))
 
     #print perforamnce
     average_sr_psnr_dict = {}
