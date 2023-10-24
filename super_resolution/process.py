@@ -273,7 +273,7 @@ def process_video_chunk(encode_queue, shared_tensor_list, data_queue):
                 process_dir = input[1]
 
             elif input[0] == 'frame':
-                #start_time = time.time()
+                start_time = time.time()
                 frame_count = input[1]
 
                 input_tensor_ = shared_tensor_list[targetHeight][frame_count % SHARED_QUEUE_LEN]
@@ -291,19 +291,17 @@ def process_video_chunk(encode_queue, shared_tensor_list, data_queue):
                 torch.cuda.synchronize()
 
                 encode_queue.put(('frame', frame_count % SHARED_QUEUE_LEN))
-                #end_time = time.time()
+                end_time = time.time()
 
                 if opt.enable_debug:
                     output_np = output_.float().cpu().numpy().astype(np.uint8)
                     imsave(os.path.join('{}/sr_{}p_{}.png'.format(process_dir, targetHeight, frame_count % SHARED_QUEUE_LEN)), output_np)
 
-                """
                 inference_time_list.append(end_time - start_time)
 
                 #For measuring a DNN run-time
-                if frame_count == 119:
+                if frame_count == 95:
                     print('process [index: {}, total-{}frames]: {}sec'.format(inference_idx_, len(inference_time_list), np.sum(inference_time_list)))
-                """
             else:
                 print('sr: Invalid input')
 
@@ -344,7 +342,7 @@ def encode(encode_queue, shared_tensor_list):
 
                 print('encode [after video info]: {}sec'.format(time.time() - encode_start_time))
 
-                command = [ 'ffmpeg',
+                command = [ '/usr/bin/ffmpeg',
                             '-r', str(fps), # frames per second
                             '-y',
                             '-loglevel', 'error',

@@ -113,7 +113,7 @@ def upload_file():
             return resp
 
         filename = str(index) + ',' + str(infer_idx)
-        resp = send_file(swap_file, attachment_filename=filename,
+        resp = send_file(swap_file, download_name=filename,
                          mimetype='application/octet-stream', as_attachment=True)
         response = make_response(resp)
         response.headers['Access-Control-Allow-Origin'] = '*'
@@ -257,7 +257,7 @@ if __name__ == '__main__':
     app.config['decode_queue'] = decode_queue
     app.config['dnn_queue'] = dnn_queue
     app.config['dnn_log'] = dnn_log
-    app.run(host='0.0.0.0', threaded=True, debug=True, use_reloader=False, ssl_context='adhoc')
+    app.run(host='0.0.0.0', threaded=True, debug=True, use_reloader=False)#, ssl_context='adhoc')
 
     # Join other processes
     sr_process.join()

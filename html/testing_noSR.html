@@ -5,12 +5,12 @@
     </head>
     <body>
         <div>
-            <video id="videoPlayer" controls="true" autoplay="true"></video>
+            <video id="videoPlayer" controls="true" autoplay="true" width="100%"></video>
         </div>
-	<script src="../dash.all.debug.js"></script>
+	<script src="../dash.all.testing.js"></script>
         <script>
             (function(){
-                var url = "multi_resolution_DNN_br.mpd";
+                var url = "multi_resolution_DNN.mpd";
                 var player = dashjs.MediaPlayer().create()
 
                 var abr_algorithms = {0: 'Default', 1: 'Fixed Rate (0)', 2: 'Buffer Based', 3: 'Rate Based', 4: 'RL', 5: 'Festive', 6: 'Bola'};
@@ -26,10 +26,9 @@
                 player.setBufferToKeep(60);
                 player.setBufferPruningInterval(60);
 
-                // dnn_quality index: 0-low, 1-medium, 2-high, 3-ultra 4-single
-                var dnn_quality = 4;
-                player.disableSRProcess(dnn_quality);
-                player.enablePartialDNN(); // download whole a single DNN chunk in partial http (not downloading DNN chunks)
+                // dnn_quality index: 0-low, 1-medium, 2-high, 3-ultra
+                var dnn_quality = 3;
+                player.disableSRProcess(dnn_quality); //downloads DNN from server, but disable SR process (sending video to dnn processor)
 
                 player.initialize(document.querySelector("#videoPlayer"), url, true);
 
