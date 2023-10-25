@@ -19,7 +19,7 @@ from option import *
 import ssl
 
 
-DNN_TEST_NUM=float(np.sum(template.get_dnn_chunk_size(opt.quality))*1000)
+DNN_TEST_NUM=float(np.sum(template.get_dnn_chunk_size(opt.content, opt.quality))*1000)
 
 
 A_DIM = len(opt.bitrate)+opt.dnn_mode

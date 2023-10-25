@@ -248,14 +248,17 @@ def check_write(content,dnn_quality):
     return quality_dict
 
     
-def get_dnn_chunk_size(quality):
+def get_dnn_chunk_size(content, quality):
     if quality =='ultra1' or quality =='ultra0':
         quality='ultra'
-    base_dir = os.path.join('../super_resolution/model/{}'.format(quality))
+    base_dir = os.path.join('../super_resolution/model/{}'.format(quality)) # for dummy
+    # base_dir = os.path.join(f"../sr_training/checkpoint/{content}/{quality}") # for real trained DNN
+    
     size_list = []
 
     for idx in range(5):
         file_path = os.path.join(base_dir, 'DNN_chunk_{}.pth'.format(idx+1))
+        # file_path = os.path.join(base_dir, 'DNN_chunk_{}_half.pth'.format(idx+1))        
         file_size = os.path.getsize(file_path) / 1024 #KByte
         size_list.append(file_size)
 

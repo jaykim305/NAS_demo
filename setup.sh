@@ -19,5 +19,6 @@ pip install opencv-python
 
 pip uninstall -y Pillow #to match the version
 pip install Pillow==9.5.0
+pip install xlsxwriter
 
 conda deactivate
