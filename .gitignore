@@ -5,3 +5,5 @@ dnn_processor/tmp_video
 dnn_processor/dnn_log
 
 pensieve/post_log
+
+*.zip

@@ -60,7 +60,7 @@ def get_chunk_size(quality, index):
     global video_sizes
     #sizes = {5: opt.dnn_byte_size, 4: size_video2[index], 3: size_video3[index], 2: size_video4[index],
     #1: size_video5[index], 0: size_video6[index]}
-    return dummy[quality]
+    return dummy[quality] #jh TODO: fix this
     return video_sizes[quality][index]
     #return sizes[quality]
 
@@ -93,7 +93,7 @@ def make_request_handler(input_dict):
             
             BaseHTTPRequestHandler.__init__(self, *args, **kwargs)
         def do_POST(self):
-            post_data_f=open('./post_log/post_data_'+opt.run_vid_trace,'a')
+            post_data_f=open('./post_log/rl_post_data_'+opt.run_vid_trace,'a')
             content_length = int(self.headers['Content-Length'])
             post_data = json.loads(self.rfile.read(content_length))
             for i in post_data:
@@ -452,6 +452,7 @@ def main():
     #         with open(os.path.join(opt.video_size_dir, VIDEO_SIZE_FILE + str(bitrate))) as f:
     #             for line in f:
     #                 video_sizes[bitrate].append(int(line.split()[0]))
+    #jh TODO: fix this
     # video_sizes = template.get_video_sizes(opt.video_dir, opt.content, opt.total_chunk)
     #assert self.total_video_chunk <= len(self.video_size[0])
     run()
