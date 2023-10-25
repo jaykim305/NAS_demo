@@ -7,9 +7,6 @@ pip install numpy
 pip install tensorflow==2.12.0
 pip install tflearn==0.5.0
 
-pip uninstall Pillow
-pip install Pillow==9.5.0
-
 pip install flask
 pip install scikit-image
 
@@ -19,5 +16,8 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 
 pip install chardet
 pip install opencv-python
+
+pip uninstall -y Pillow #to match the version
+pip install Pillow==9.5.0
 
 conda deactivate

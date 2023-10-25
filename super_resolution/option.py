@@ -5,8 +5,8 @@ parser = argparse.ArgumentParser(description="PyTorch Super Resolution")
 
 # Directory
 # [dataRoot or resultRoot]/[dataType]/[videoType]/[contentType]
-parser.add_argument('--dataRoot', default=os.path.join('/usr/share', 'OSDI18-data'), metavar='DIR')
-parser.add_argument('--resultRoot', default=os.path.join('/usr/share', 'OSDI18-result'), metavar='DIR')
+parser.add_argument('--dataRoot', default='./data', metavar='DIR')
+parser.add_argument('--resultRoot', default='./result', metavar='DIR')
 parser.add_argument('--dataType', default='video',  metavar='DIR', choices=('video, div2k'), help='dataset directory')
 parser.add_argument('--videoType', default='final-full', metavar='DIR', help='dataset directory')
 parser.add_argument('--contentType', default='', metavar='DIR', help='content directory')
