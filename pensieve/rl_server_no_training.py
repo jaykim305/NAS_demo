@@ -435,7 +435,7 @@ def run(server_class=HTTPServer, port=8333, log_file_path=LOG_FILE):
         
         server_address = ('0.0.0.0', port)
         httpd = server_class(server_address, handler_class)
-        httpd.socket = ssl.wrap_socket (httpd.socket, keyfile="./key.pem", certfile='./cert.pem', server_side=True)
+        # httpd.socket = ssl.wrap_socket (httpd.socket, keyfile="./key.pem", certfile='./cert.pem', server_side=True)
         print('Listening on port ' + str(port))
         httpd.serve_forever()
 
