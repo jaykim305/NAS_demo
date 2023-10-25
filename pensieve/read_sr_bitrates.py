@@ -248,7 +248,7 @@ def check_write(content,dnn_quality):
     return quality_dict
 
     
-def get_dnn_chunk_size(content, quality):
+def get_dnn_chunk_size(quality):
     if quality =='ultra1' or quality =='ultra0':
         quality='ultra'
     base_dir = os.path.join('../super_resolution/model/{}'.format(quality)) # for dummy

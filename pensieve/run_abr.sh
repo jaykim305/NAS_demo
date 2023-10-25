@@ -22,10 +22,10 @@ done
 
 # Check the value of 't' and execute the corresponding Python script
 if [ "$t" == "p" ]; then
-        echo "pensieve (video)"
+        echo "pensieve (video)" # TODO: should load pensieve model and set dnn_mode 0
         python rl_server_no_training.py --total_chunk $n \
                 --data_dir ./ --model NAS_40000_linear_104.51_False_ultra1_average.ckpt --reward linear --linear_rebuf 4.3 --smooth 1 \
-                --bitrate 400 800 1200 2400 4800 --dnn_mode 0 --buffer_threshold 15 \
+                --bitrate 400 800 1200 2400 4800 --dnn_mode 1 --buffer_threshold 15 \
                 --content game --quality ultra1 --video_dir /home/jaykim305/NAS/pensieve/rl_server/                
 elif [ "$t" == "n" ]; then
         echo "nas (video+DNN)"
