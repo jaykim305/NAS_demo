@@ -59,6 +59,8 @@ def test_quality(opt, dataloader, model, epoch, prefix='', test_channel=3, save_
                 total_iter += 1
 
                 if save_image:
+                    output_ *= 255
+                    input_ *= 255
                     imageio.imwrite('{}/{}_{}.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), output_.astype(np.uint8))
                     imageio.imwrite('{}/{}_bicubic.png'.format(os.path.join(opt.resultDir, opt.model_name), prefix, count), input_.astype(np.uint8))
 
@@ -115,6 +117,8 @@ def test_quality(opt, dataloader, model, epoch, prefix='', test_channel=3, save_
 
                     #save an image
                     if save_image:
+                        output_ *= 255
+                        input_ *= 255
                         imageio.imwrite('{}/{}_layer{}_{}.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), output_.astype(np.uint8))
                         imageio.imwrite('{}/{}_layer{}_{}_bicubic.jpg'.format(os.path.join(opt.resultDir, opt.model_name), prefix, outputNode[layer], count), input_.astype(np.uint8))
 
@@ -226,6 +230,8 @@ def test_static(opt, dataloader, model, epoch, logger, save_image, use_ssim):
         total_iter += 1
 
         if save_image:
+            output_np *= 255
+            input_np *= 255
             imageio.imwrite('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.network), output_np.astype(np.uint8))
             imageio.imwrite('{}/{}_{}.png'.format(opt.imageDir, total_iter, opt.resize), input_np.astype(np.uint8))
 
@@ -291,6 +297,8 @@ def test_dynamic(opt, dataloader, model, epoch, logger, save_image, use_ssim):
 
             #save an image
             if save_image:
+                output_np *= 255
+                input_np *= 255
                 imageio.imwrite('{}/{}_layer{}_vdsr.png'.format(opt.imageDir, layer, total_iter), output_np.astype(np.uint8))
                 imageio.imwrite('{}/{}_layer{}_{}.png'.format(opt.imageDir, layer, total_iter, opt.resize), input_np.astype(np.uint8))
 
