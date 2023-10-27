@@ -1,4 +1,7 @@
 #!/bin/bash
+
+source activate nas
+
 while getopts ":g:q:c:d:" opt; do
     case "$opt" in
     g)

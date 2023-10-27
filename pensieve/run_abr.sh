@@ -1,5 +1,7 @@
 ##!/bin/bash
 
+source activate nas
+
 # Initialize the variables for the options
 t=""
 n="75" #number of chunk ex): 75 chunks = 5 min (video lenth / 4sec)

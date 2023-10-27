@@ -9912,7 +9912,7 @@ function ManifestLoader(config) {
                                 window.DNN_selection = resp[3];
                             }
                         };
-                        xhr_config.open("POST", "http://localhost:5000/dnn_config", true);
+                        xhr_config.open("POST", "http://watermelon3.inalab.net:5000/dnn_config", true);
                         xhr_config.send(JSON.stringify(window.DNN_manifest));
                     }
 
@@ -16242,7 +16242,7 @@ function AbrController() {
             case 2:
                 var xhr = new XMLHttpRequest();
                 //jay mod for BB case, URL for abr server
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16257,7 +16257,7 @@ function AbrController() {
                 return getBitrateBB(buffer);
             case 3:
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16272,7 +16272,7 @@ function AbrController() {
             case 4:
                 var quality = 2;
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16314,7 +16314,7 @@ function AbrController() {
                 return quality;
             case 5:
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16330,7 +16330,7 @@ function AbrController() {
             case 6:
                 /*
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function() {
                     if ( xhr.readyState == 4 && xhr.status == 200 ) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16346,7 +16346,7 @@ function AbrController() {
             default:
                 // defaults to lowest quality always
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://localhost:8333", false);
+                xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -16413,7 +16413,7 @@ function AbrController() {
                     var bandwidthEst = predict_throughput(lastRequested, lastQuality, lastHTTPRequest);
                     // defaults to lowest quality always
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", "http://localhost:8333", false);
+                    xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState == 4 && xhr.status == 200) {
                             console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -17291,7 +17291,7 @@ function BufferController(config) {
         var chunk = e.chunk;
         if (window.abrAlgo == 6 && !chunk.isInit) {
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8333", false);
+            xhr.open("POST", "http://watermelon3.inalab.net:8333", false);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     console.log("GOT RESPONSE:" + xhr.responseText + "---");
@@ -18105,7 +18105,7 @@ function FragmentController() /*config*/{
                 }
             }
         };
-        xhr.open("POST", "http://localhost:5000/uploader", true);
+        xhr.open("POST", "http://watermelon3.inalab.net:5000/uploader", true);
         xhr.responseType = "arraybuffer";
         var curTime = new Date();
         var playTime = playbackController.getTime();
@@ -19709,7 +19709,7 @@ function ScheduleController(config) {
 
                 if (window.SRProcess_enabled) {
                     var xhr_dnn_proc = new XMLHttpRequest();
-                    xhr_dnn_proc.open("POST", "http://localhost:5000/dnn_chunk", true);
+                    xhr_dnn_proc.open("POST", "http://watermelon3.inalab.net:5000/dnn_chunk", true);
                     var meta = { 'path': '~/Donwload', 'chunk_num': request.index };
                     var data = new FormData();
                     data.append('dnn', new Blob([this.response], { type: "application/octet-stream" }));

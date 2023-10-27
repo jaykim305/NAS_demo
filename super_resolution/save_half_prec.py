@@ -6,7 +6,7 @@ model = NAS.Multi_Network("ultra")
 model = model.cuda()
 model = model.half()
 
-basedir = "../sr_training/checkpoint/LOL/ultra"
+basedir = "../sr_training/checkpoint/LOL/high"
 
 num_chunks = 5
 
