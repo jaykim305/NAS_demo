@@ -7,3 +7,5 @@ dnn_processor/dnn_log
 pensieve/post_log
 
 *.zip
+*.log
+log*
