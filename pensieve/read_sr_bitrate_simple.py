@@ -357,6 +357,51 @@ def get_partial_sr_bitrate(dnn_chunk, content, dnn_quality):
     return quality_list
 
 
+def get_baseline_psnr(content, dnn_quality):
+    logs = analyze_log(content, dnn_quality)
+    quality_data = {}
+    
+    for res in [240, 360, 480, 720]:
+        quality_data[f"{res}p"] = logs[f"psnr-{res}-bicubic"]
+    quality_data['1080p']=[100]
+
+    quality_list = []
+    
+    # if dnn_chunk == 5:
+    #     quality_list.append(np.mean(quality_data['240p'][4]))
+    #     quality_list.append(np.mean(quality_data['360p'][4]))
+    #     quality_list.append(np.mean(quality_data['480p'][4]))
+    #     quality_list.append(np.mean(quality_data['720p'][1]))
+    #     quality_list.append(np.mean(quality_data['1080p'][0]))
+    # elif dnn_chunk == 4:
+    #     quality_list.append(np.mean(quality_data['240p'][3]))
+    #     quality_list.append(np.mean(quality_data['360p'][3]))
+    #     quality_list.append(np.mean(quality_data['480p'][3]))
+    #     quality_list.append(np.mean(quality_data['720p'][1]))
+    #     quality_list.append(np.mean(quality_data['1080p'][0]))
+    # elif dnn_chunk == 3:
+    #     quality_list.append(np.mean(quality_data['240p'][2]))
+    #     quality_list.append(np.mean(quality_data['360p'][2]))
+    #     quality_list.append(np.mean(quality_data['480p'][2]))
+    #     quality_list.append(np.mean(quality_data['720p'][1]))
+    #     quality_list.append(np.mean(quality_data['1080p'][0]))
+    # elif dnn_chunk == 2: #360,480,720
+    #     quality_list.append(np.mean(quality_data['240p'][1]))
+    #     quality_list.append(np.mean(quality_data['360p'][1]))
+    #     quality_list.append(np.mean(quality_data['480p'][1]))
+    #     quality_list.append(np.mean(quality_data['720p'][1]))
+    #     quality_list.append(np.mean(quality_data['1080p'][0]))
+    # elif dnn_chunk == 1: #240
+        
+    quality_list.append(np.mean(quality_data['240p'][0]))
+    quality_list.append(np.mean(quality_data['360p'][0]))
+    quality_list.append(np.mean(quality_data['480p'][0]))
+    quality_list.append(np.mean(quality_data['720p'][0]))
+    quality_list.append(np.mean(quality_data['1080p'][0]))
+
+    return quality_list
+        
+
 def get_partial_sr_psnr(dnn_chunk, content, dnn_quality):
     
     logs = analyze_log(content, dnn_quality)
@@ -598,9 +643,11 @@ if __name__ == "__main__":
         
         eff_bitrates = get_partial_sr_bitrate(dnn_chunk=dnn_chunk, content="LOL", dnn_quality="ultra")
         eff_psnrs = get_partial_sr_psnr(dnn_chunk=dnn_chunk, content="LOL", dnn_quality="ultra")
+        baseline_psnrs = get_baseline_psnr(content="LOL", dnn_quality="ultra")
         
         print(eff_bitrates)
         print(eff_psnrs)
+        print(baseline_psnrs)
         
     # print_bitrate()
     # print_ssim()
