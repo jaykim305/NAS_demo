@@ -70,7 +70,6 @@ def make_request_handler(input_dict):
 			self.wfile.write(send_data.encode('utf-8'))
 
 		def do_GET(self):
-			print ('im here!!\n\n')
 			#print >> sys.stderr, 'GOT REQ'
 			self.send_response(200)
 			#self.send_header('Cache-Control', 'Cache-Control: no-cache, no-store, must-revalidate max-age=0')

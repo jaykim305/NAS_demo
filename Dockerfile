@@ -9,8 +9,6 @@ RUN apt-get update \
 # for abr and dnn server listening port
 EXPOSE 8333 5000
 
-# TODO: installing conda 
-
 RUN wget https://repo.anaconda.com/archive/Anaconda3-2023.09-0-Linux-x86_64.sh
 RUN shasum -a 256 Anaconda3-2023.09-0-Linux-x86_64.sh
 RUN bash Anaconda3-2023.09-0-Linux-x86_64.sh -b

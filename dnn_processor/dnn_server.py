@@ -8,7 +8,6 @@ from flask import Flask, make_response, render_template, redirect, url_for, requ
 import subprocess
 import sys
 sys.path.insert(0, '../super_resolution')
-#sys.path.insert(0, '/home/jaykim305/Deep-Video-Stream/super_resolution')
 
 from option import *
 #import process_ver2
@@ -87,7 +86,6 @@ def upload_file():
                     os.system(cmd)
 
                     #swap_file = input[1]
-                    #swap_file = os.path.join('/home/jaykim305/Deep-Video-Stream/pensieve/final/', input[1])
                     swap_file = os.path.join(os.getcwd(), input[1])
 
 
