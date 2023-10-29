@@ -1,7 +1,7 @@
 # NAS_demo
-This repository holds the full end-to-end prototype for NAS with instructions for playing demo.  
+This repository holds the full end-to-end prototype for [Neural Adaptive Content-aware Internet Video Delivery](https://ina.kaist.ac.kr/~nas) with instructions for playing demo.  
 It composes of server-side html files, client-side player, content-aware SR DNN processor, and Integrated ABR server.  
-For the integrated ABR, we provide the pre-trained RL models for Pensieve and NAS Integrated ABR for testing demo.
+For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL models.
 
 ## Project structure
 ```
@@ -43,11 +43,11 @@ For the integrated ABR, we provide the pre-trained RL models for Pensieve and NA
         sudo docker pull jaykim305/nas-demo:v1
         ```        
 
-- Disable cache in Chrome browser. Refer [this.](https://www.webinstinct.com/faq/how-to-disable-browser-cache#:~:text=When%20you're%20in%20Google,the%20box%20to%20Disable%20cache.)
+- Disable cache in Chrome browser. Refer to [this.](https://www.webinstinct.com/faq/how-to-disable-browser-cache#:~:text=When%20you're%20in%20Google,the%20box%20to%20Disable%20cache.)
 
 ### Server-side (CDN server)
-In this setup, we provide the Dataset. All you have to do is to host t
-To use your own video for this demo, go to xx.
+In this setup, we provide the dataset [here.](xx) Download and place it at your serving directory of your webserver.  
+To use your own video and trained DNN for this demo, go to [Testing with your own video.](#testing-with-your-own-video)
 
 - Install and start lighttpd (or apache2)
     ```
@@ -63,9 +63,9 @@ To use your own video for this demo, go to xx.
     - The structure should look like this:
     ```
     /var/www/html/[your_dir_name]
-    ├── dash.all.debug.js      # JavaScript: modified DASH video player for NAS
-    ├── [content name]         # Python: SR DNN inference processor
-        ├── xx                   # HTML: files for different schemes (NAS/Pensieve/robustMPC/BufferBased)
+    ├── dash.all.debug.js      # dash.js code
+    ├── [content name]         # DASH videos, DNNs, HTMLs
+        ├── xx                 # dash video
         ├── xx               # Python: ABR inferece server with pre-trained RL models
         ├── xx            # Python: training code for content-aware SR DNN
         ├── xx 
@@ -76,37 +76,118 @@ To use your own video for this demo, go to xx.
         ```
         sudo /etc/init.d/lighttpd restart
         ```
-- (Optional) Change DNN processing url in dash script
+- (Optional) If you want the DNN processor/ABR server to run on a separate machine equipped with GPU, change DNN processing url in dash script.  
+The default url is set to the localhost.
+    ```
+    ./replace_url.sh dash.all.debug.js localhost <url of your processor> 
+    ```
 
 
 ## Play Demo (Client-side)
-
+You have the option to choose from the following schemes: **1) NAS, 2) Pensieve, 3) Robust MPC, 4) Buffer based**.
 ### Run ABR server 
-- run pen
-- run xx
-### Run DNN processor (Only required for NAS)
-- xx
-### Play video with Chrome browser
-- play xx
+```
+cd ./pensieve
+./run_abr.sh -t [type]
+```
+Options:
+- `-t n`: Use NAS. Makes decision to download either video or DNN chunk.
+- `-t p`: Use Pensieve ABR algorithm.
+- `-t m`: Use Robust MPC.
+- `-t s`: Use Buffer-based ABR.
+- `-t r`: Replay video/dnn decision from a saved NAS trace. (Useful for debugging.)
 
+### Run DNN processor (Only required for NAS)
+```
+cd ./dnn_processor
+./dnn_server -g [gpu device num] -c [content] -q [DNN quality] -d video
+```
+Options:
+- `-g`: gpu device number
+- `-q`: DNN quality. Choices: Low, Medium, High, Ultra. Refer to [NAS public repo](https://github.com/kaist-ina/NAS_public).
+
+For the provided [dataset](xx), we provide the ultra DNN quality. Therefore you should set `-q utlra`.
+### Play video with Chrome browser
+Access the HTML webpage in your browser using the following address format: 
+```
+http://<your webserver>/<your serving directory>/<content>/<scheme>.html
+```
+Available schemes: `NAS_ultra.html, Pensieve.html, robustMPC.html, BuffBased.html`
 
 ## Testing with your own video
-Follow the setup in Client-xx
-The process is from DASH_public xx
-Download video using xx
 
+### Setup
+- Follow the setup in [Client-side (Player)](#client-side-(Player)) to install required python packages.  
+- Fetch code from [NAS public repo](https://github.com/kaist-ina/NAS_public). The code is placed at `sr_training`.
+    ```
+    git submodule update --init
+    ```
 ### Prepare DASH video
-Place it in xx
-
+- Download video from youtube using `yt-dlp`.
+- Run script `./dash_vid_setup.sh` from [here.](https://github.com/kaist-ina/NAS_public#prepare-mpeg-dash-dataset)
+- It will generate DASH video chunks and corresponding MPD file.
 ### Prepare DNN
-
+- Train the content-aware DNNs. Follow the intruction from [here.](https://github.com/kaist-ina/NAS_public#how-to-train-nas-mdsr)
+- (Optional) Generate the quality log. Required for evaluating effective bitrate and QoE.
+    ```
+    cd ./sr_training
+    python test_nas_quality.py --quality [quality level] --fps 1 --data_name [content] --use_cuda --load_on_memory
+    ```
 ### Add DNN config in MPD file
-
-### Place all your content at Server
-use copy files
-
+- Add the following DNN config in `mult_resolution.mpd` and save it as `multi_resolution_DNN.mpd`.  
+Example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob/8d572007c23ae0f140fb43e05f86a5a706668ed2/html/multi_resolution_DNN.mpd#L24)
+```
+ <DNN url="<your webserver>/<your serving directory>/<content>">
+	<Representation id="low">
+		<SegmentTemplate DNN="$RepresentaionID$/DNN_chunk_$Number$.pth" startNumber="1" endNumber="5"/>
+	    <Quality id="240p" layer="10" feature="10"/>
+		<Quality id="360p" layer="15" feature="40"/>
+    </Representation>
+	<Representation id="medium">
+		<SegmentTemplate DNN="$RepresentaionID$/DNN_chunk_$Number$.pth" startNumber="1" endNumber="5"/>
+        <Quality id="240p" layer="10" feature="24"/>
+		<Quality id="360p" layer="15" feature="40"/>
+	</Representation>	
+	<Representation id="high">
+		<SegmentTemplate DNN="$RepresentaionID$/DNN_chunk_$Number$.pth" startNumber="1" endNumber="5"/>
+		<Quality id="240p" layer="10" feature="32"/>
+		<Quality id="360p" layer="15" feature="40"/>
+	</Representation>
+ 	<Representation id="ultra">
+		<SegmentTemplate DNN="$RepresentaionID$/DNN_chunk_$Number$.pth" startNumber="1" endNumber="5"/>
+        <Quality id="240p" layer="10" feature="44"/>
+		<Quality id="360p" layer="15" feature="40"/>
+	</Representation>
+	<Representation id="single">
+		<SegmentTemplate DNN="$RepresentaionID$/DNN_chunk_$Number$.pth" startNumber="1" endNumber="1"/>
+	</Representation>
+    <frameRate fps="24"/>
+ </DNN>
+```
+### Upload & place all your content at Server
+```
+./copy_files.sh // copies all necessary files to /var/www/html/[your serving directory]
+```
 ### Play demo
-now you are ready. play
+Now you are ready. [Play video with Chrome browser](#play-video-with-chrome-browser).
 
+## Authors & Cite
+- Hyunho Yeo, chaos5958@gmail.com
+- Jaehong Kim, jaehong950305@gmail.com
+- Youngmok Jung, tom418@kaist.ac.kr
 
-## Authors
+If you use our work for research, please cite it.  
+Hyunho, et al. "Neural adaptive content-aware internet video delivery." 13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18). 2018. [[Website](http://ina.kaist.ac.kr/~nas/)] 
+```
+@inproceedings{yeo2018neural,
+    title={Neural adaptive content-aware internet video delivery},
+    author={Yeo, Hyunho and Jung, Youngmok and Kim, Jaehong and Shin, Jinwoo and Han, Dongsu},
+    booktitle={13th $\{$USENIX$\}$ Symposium on Operating Systems Design and Implementation ($\{$OSDI$\}$ 18)},
+    pages={645--661},
+    year={2018}
+}
+```
+
+## Reference
+- [Pensieve (SIGCOMM'17) repository](https://github.com/hongzimao/pensieve) for Pensieve ABR server.
+- [NAS (OSDI'18) public repository](https://github.com/kaist-ina/NAS_public/tree/master) for NAS-MDSR module.
