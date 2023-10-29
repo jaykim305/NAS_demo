@@ -1,5 +1,5 @@
 # NAS_demo
-This repository holds the full end-to-end prototype for [Neural Adaptive Content-aware Internet Video Delivery](https://ina.kaist.ac.kr/~nas) with instructions for playing demo.  
+This repository holds the full end-to-end prototype for [Neural Adaptive Content-aware Internet Video Delivery (OSDI'18)](https://ina.kaist.ac.kr/~nas) with instructions for playing demo.  
 It composes of server-side html files, client-side player, content-aware SR DNN processor, and Integrated ABR server.  
 For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL models.
 
@@ -15,8 +15,8 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 ```
 
 ## Prerequisites
-- Client (Player) OS: Ubuntu 18.04 or higher with Chrome Browser
-- Client (Player) HW: NVIDIA GPU (2080 ti or better recommended for real-time SR processing)
+- Client (Player) OS: Ubuntu 18.04 or higher, Chrome Browser. (Any browser should work but only checked with Chrome).
+- Client (Player) HW: NVIDIA GPU (2080 ti or better is recommended for real-time SR processing)
 - Server (CDN): lighttpd or apache2 webserver
 - Dataset: DASH video chunks and NAS DNN Chunks. These are served at the CDN server. 
 
@@ -36,7 +36,8 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
         ```
         sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo nas-demo /bin/bash
         ```
-    - Or you can pull the provided docker image (Ubuntu 18.04,  pytorch-cuda=11.8).  
+    - Or you can pull our docker image `jaykim305/nas-demo:v1`. 
+        The image is based on Ubuntu 18.04,  pytorch-cuda=11.8.  
         This might takes some time due to large image size.
         ```
         sudo docker pull jaykim305/nas-demo:v1
@@ -61,12 +62,18 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
     - The structure should look like this:
     ```
     /var/www/html/[your_dir_name]
-    ├── dash.all.debug.js      # dash.js code
-    ├── [content name]         # DASH videos, DNNs, HTMLs
-        ├── xx                 # dash video
-        ├── xx               # Python: ABR inferece server with pre-trained RL models
-        ├── xx            # Python: training code for content-aware SR DNN
-        ├── xx 
+    ├── dash.all.debug.js                   # dash.js code
+    ├── [content name]                      # DASH videos, DNNs, HTMLs
+        ├── 1080p                 
+        ├── 720p               
+        ├── 480p           
+        ├── 360p
+        ├── 240p
+        ├── multi_resolution_DNN.mpd        
+        ├── NAS_ultra.html                  
+        ├── Pensieve.html
+        ├── robustMPC.html
+        ├── BuffBased.html 
     ```
 - Change lighttpd config and restart
     - Add `server.dir-listing = "enable"` in `/etc/lighttpd/lighttpd.conf`
@@ -181,11 +188,10 @@ Now you are ready. [Play video with Chrome browser](#play-video-with-chrome-brow
 
 ## Authors & Cite
 - Hyunho Yeo, chaos5958@gmail.com
-- Jaehong Kim, jaehong950305@gmail.com
 - Youngmok Jung, tom418@kaist.ac.kr
+- Jaehong Kim, jaehong950305@gmail.com
 
 If you use our work for research, please cite it.  
-Hyunho, et al. "Neural adaptive content-aware internet video delivery." 13th USENIX Symposium on Operating Systems Design and Implementation (OSDI 18). 2018. [[Website](http://ina.kaist.ac.kr/~nas/)] 
 ```
 @inproceedings{yeo2018neural,
     title={Neural adaptive content-aware internet video delivery},
