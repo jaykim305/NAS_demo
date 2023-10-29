@@ -21,7 +21,6 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 - Dataset: DASH video chunks and NAS DNN Chunks. These are served at the CDN server. 
 
 ## Setup
-
 ### Client-side (Player)
 - Clone repo and install conda env:
     ```
@@ -48,7 +47,6 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 ### Server-side (CDN server)
 In this setup, we provide the dataset [here.](xx) Download and place it at your serving directory of your webserver.  
 To use your own video and trained DNN for this demo, go to [Testing with your own video.](#testing-with-your-own-video)
-
 - Install and start lighttpd (or apache2)
     ```
     sudo apt-get install lighttpd
@@ -81,8 +79,6 @@ The default url is set to the localhost.
     ```
     ./replace_url.sh dash.all.debug.js localhost <url of your processor> 
     ```
-
-
 ## Play Demo (Client-side)
 You have the option to choose from the following schemes: **1) NAS, 2) Pensieve, 3) Robust MPC, 4) Buffer based**.
 ### Run ABR server 
@@ -114,6 +110,18 @@ http://<your webserver>/<your serving directory>/<content>/<scheme>.html
 ```
 Available schemes: `NAS_ultra.html, Pensieve.html, robustMPC.html, BuffBased.html`
 
+## Tips
+NAS can significantly enhance video quality in situations where network congestion occurs between the server and the client.  
+To simulate such scenarios and observe the benefits of NAS, you can restrict the network speed on the server side.  
+By doing so, you'll notice a noticeable improvement in video quality.  You can use the `tc` to limit network speed with the following rule:  
+- Apply rule:
+    ```
+    sudo tc qdisc add dev eno1 root tbf rate 0.9mbit burst 32kbit latency 200ms
+    ```
+- Remove rule
+    ```
+    sudo tc qdisc del dev eno1 root
+    ```
 ## Testing with your own video
 
 ### Setup
