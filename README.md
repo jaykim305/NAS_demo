@@ -69,11 +69,15 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ├── 480p           
         ├── 360p
         ├── 240p
+        ├── ultra                           # NAS MDSR DNN Chunks
+        ├── high 
+        ├── medium 
+        ├── low                           
         ├── multi_resolution_DNN.mpd        
         ├── NAS_ultra.html                  
         ├── Pensieve.html
         ├── robustMPC.html
-        ├── BuffBased.html 
+        ├── BufferBased.html 
     ```
 - Change lighttpd config and restart
     - Add `server.dir-listing = "enable"` in `/etc/lighttpd/lighttpd.conf`
@@ -185,6 +189,23 @@ Example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob
 ```
 ### Play demo
 Now you are ready. [Play video with Chrome browser](#play-video-with-chrome-browser).
+
+### Changing schemes
+- To change abr algorithm, modify `abr_id` in the html file.
+    ```
+    var abr_algorithms = {0: 'Default', 1: 'Fixed Rate (0)', 2: 'Buffer Based', 3: 'Rate Based', 4: 'RL', 5: 'Festive', 6: 'Bola'};
+    var abr_id = 4;
+    ```
+- To change the DNN quality to download, modify `dnn_quality` in the html file.
+    ```
+    var dnn_quality = 3 // dnn_quality index: 0-low, 1-medium, 2-high, 3-ultra
+    ```
+- To enable/disable SR process, put `player.enableSRProcess()`/`player.disableSRProcess()` in the html file.
+    ```
+    player.enableSRProcess(); // enable
+    player.disableSRProcess(); // disable
+    ```
+
 
 ## Authors & Cite
 - Hyunho Yeo, chaos5958@gmail.com
