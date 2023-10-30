@@ -34,7 +34,7 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
         ```
     - Run docker and execute rest of the instruction inside the docker 
         ```
-        sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo nas-demo /bin/bash
+        sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo jaykim305/nas-demo:v1 /bin/bash
         ```
     - Or you can pull our docker image `jaykim305/nas-demo:v1`. 
         The image is based on Ubuntu 18.04,  pytorch-cuda=11.8.  
@@ -70,11 +70,11 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ├── 360p
         ├── 240p
         ├── ultra                           # NAS MDSR DNN Chunks
-        ├── high 
-        ├── medium 
-        ├── low                           
-        ├── multi_resolution_DNN.mpd        
-        ├── NAS_ultra.html                  
+        ├── high                              -  
+        ├── medium                            -
+        ├── low                               -
+        ├── multi_resolution_DNN.mpd        # MPD file
+        ├── NAS_ultra.html                  # HTML file for different schemes
         ├── Pensieve.html
         ├── robustMPC.html
         ├── BufferBased.html 
@@ -107,7 +107,7 @@ Options:
 ### Run DNN processor (Only required for NAS)
 ```
 cd ./dnn_processor
-./dnn_server -g [gpu device num] -c [content] -q [DNN quality] -d video
+./dnn_server.sh -g [gpu device num] -c [content] -q [DNN quality] -d video
 ```
 Options:
 - `-g`: gpu device number
@@ -137,7 +137,7 @@ By doing so, you'll notice a noticeable improvement in video quality.  You can u
 
 ### Setup
 - Follow the setup in [Client-side (Player)](#client-side-(Player)) to install required python packages.  
-- Fetch code from [NAS public repo](https://github.com/kaist-ina/NAS_public). The code is placed at `sr_training`.
+- Fetch code from [NAS public repo](https://github.com/kaist-ina/NAS_public). If you run the code below, the fetched code will be placed in the `sr_training`.
     ```
     git submodule update --init
     ```
