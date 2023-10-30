@@ -146,7 +146,11 @@ By doing so, you'll notice a noticeable improvement in video quality.  You can u
 - Run script `./dash_vid_setup.sh` from [here.](https://github.com/kaist-ina/NAS_public#prepare-mpeg-dash-dataset)
 - It will generate DASH video chunks and corresponding MPD file.
 ### Prepare DNN
-- Train the content-aware DNNs. Follow the intruction from [here.](https://github.com/kaist-ina/NAS_public#how-to-train-nas-mdsr)
+- Train the content-aware DNNs. See the detailed intruction from [here.](https://github.com/kaist-ina/NAS_public#how-to-train-nas-mdsr)
+    ```
+    cd ./sr_training
+    python train_nas_awdnn.py --quality [quality level] --data_name [dataset name] --use_cuda --load_on_memory
+    ```
 - (Optional) Generate the quality log. Required for evaluating effective bitrate and QoE.
     ```
     cd ./sr_training
