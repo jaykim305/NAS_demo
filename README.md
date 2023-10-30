@@ -70,9 +70,9 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ├── 360p
         ├── 240p
         ├── ultra                           # NAS MDSR DNN Chunks
-        ├── high                              -  
-        ├── medium                            -
-        ├── low                               -
+        ├── high                                
+        ├── medium                            
+        ├── low                               
         ├── multi_resolution_DNN.mpd        # MPD file
         ├── NAS_ultra.html                  # HTML file for different schemes
         ├── Pensieve.html
