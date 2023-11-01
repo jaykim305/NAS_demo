@@ -1,6 +1,6 @@
 # NAS_demo
-This repository holds the full end-to-end prototype for [Neural Adaptive Content-aware Internet Video Delivery (OSDI'18)](https://ina.kaist.ac.kr/~nas) with instructions for playing demo.  
-It composes of server-side html files, client-side player, content-aware SR DNN processor, and Integrated ABR server.  
+This repository holds the full end-to-end prototype for [Neural Adaptive Content-aware Internet Video Delivery (OSDI'18)](https://ina.kaist.ac.kr/~nas) with instructions for the demo.  
+It consists of server-side HTML files, a client-side player, the content-aware SR DNN processor, and the Integrated ABR server.  
 For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL models.
 
 ## Project structure
@@ -9,7 +9,7 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 ├── dash.js                # JavaScript: modified DASH video player for NAS
 ├── dnn_processor          # Python: SR DNN inference processor
 ├── html                   # HTML: files for different schemes (NAS/Pensieve/robustMPC/BufferBased)
-├── pensieve               # Python: ABR inferece server with pre-trained RL models
+├── pensieve               # Python: ABR inference server with pre-trained RL models
 ├── sr_training            # Python: training code for content-aware SR DNN
 ├── super_resolution       # Python: NAS MDSR super_resolution models and tools
 ```
@@ -34,11 +34,11 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
         ```
     - Or you can pull our docker image `jaykim305/nas-demo:v1`. 
         The image is based on Ubuntu 18.04,  pytorch-cuda=11.8.  
-        This might takes some time due to large image size.
+        This might take some time due to the large image size.
         ```
         sudo docker pull jaykim305/nas-demo:v1
         ```                
-    - Run docker and execute rest of the instruction inside the docker.
+    - Run docker and execute the rest of the instructions inside the docker.
         ```
         sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo jaykim305/nas-demo:v1 /bin/bash
         ```
@@ -46,7 +46,7 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 
 ### Server-side (CDN server)
 In this setup, we provide the dataset [here.](xx)   
-Download and place it at your serving directory of your webserver. You can do this by following the instructions below.   
+Download and place it in your serving directory of your webserver. You can do this by following the instructions below.   
 To use your own video and trained DNN for this demo, go to [Testing with your own video.](#testing-with-your-own-video)
 - Install and start lighttpd (or apache2).
     ```
@@ -85,8 +85,8 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ```
         sudo /etc/init.d/lighttpd restart
         ```
-- (Optional) If you want the DNN processor/ABR server to run on a separate machine equipped with GPU, change DNN processing url in dash script.  
-The default url is set to the localhost.
+- (Optional) If you want the DNN processor/ABR server to run on a separate machine equipped with GPU, change DNN processing URL in the dash script.  
+The default URL is set to the localhost.
     ```
     ./replace_url.sh dash.all.debug.js localhost <url of your processor> 
     ```
@@ -98,9 +98,9 @@ cd ./pensieve
 ./run_abr.sh -t [type]
 ```
 Options:
-- `-t n`: Use NAS. Makes decision to download either video or DNN chunk.
-- `-t p`: Use Pensieve ABR algorithm.
-- `-t m`: Use Robust MPC.
+- `-t n`: Use NAS. Makes the decision to download either video or DNN chunk. It is RL-based and runs on TensorFlow.
+- `-t p`: Use Pensieve ABR. It is RL-based and runs on TensorFlow.
+- `-t m`: Use Robust MPC ABR.
 - `-t s`: Use Buffer-based ABR.
 - `-t r`: Replay video/dnn decision from a saved NAS trace. (Useful for debugging.)
 
@@ -113,7 +113,7 @@ Options:
 - `-g`: gpu device number
 - `-q`: DNN quality. Choices: Low, Medium, High, Ultra. Refer to [NAS public repo](https://github.com/kaist-ina/NAS_public).
 
-For the provided [dataset](xx), we provide the ultra DNN quality. Therefore you should set `-q utlra`.
+For the provided [dataset](xx), we provide the ultra DNN quality. Therefore, you should set `-q utlra`.
 ### Play video with Chrome browser
 Access the HTML webpage in your browser using the following address format: 
 ```
@@ -136,17 +136,17 @@ By doing so, you'll notice a noticeable improvement in video quality.  You can u
 ## Testing with your own video
 
 ### Setup
-- Follow the setup in [Client-side (Player)](#client-side-(Player)) to install required python packages.  
+- Follow the setup in [Client-side (Player)](#client-side-player) to install required python packages.  
 - Fetch code from [NAS public repo](https://github.com/kaist-ina/NAS_public). If you run the code below, the fetched code will be placed in the `sr_training`.
     ```
     git submodule update --init
     ```
 ### Prepare DASH video
-- Download video from youtube using `yt-dlp`.
+- Download a video from YouTube using `yt-dlp`.
 - Run script `./dash_vid_setup.sh` from [here.](https://github.com/kaist-ina/NAS_public#prepare-mpeg-dash-dataset)
 - It will generate DASH video chunks and corresponding MPD file.
 ### Prepare DNN
-- Train the content-aware DNNs. See the detailed intruction from [here.](https://github.com/kaist-ina/NAS_public#how-to-train-nas-mdsr)
+- Train the content-aware DNNs. See the detailed instructions from [here.](https://github.com/kaist-ina/NAS_public#how-to-train-nas-mdsr)
     ```
     cd ./sr_training
     python train_nas_awdnn.py --quality [quality level] --data_name [dataset name] --use_cuda --load_on_memory
@@ -158,7 +158,7 @@ By doing so, you'll notice a noticeable improvement in video quality.  You can u
     ```
 ### Add DNN config in MPD file
 - Add the following DNN config in `mult_resolution.mpd` and save it as `multi_resolution_DNN.mpd`.  
-Example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob/8d572007c23ae0f140fb43e05f86a5a706668ed2/html/multi_resolution_DNN.mpd#L24)
+An example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob/8d572007c23ae0f140fb43e05f86a5a706668ed2/html/multi_resolution_DNN.mpd#L24)
 ```
  <DNN url="<your webserver>/<your serving directory>/<content>">
 	<Representation id="low">
@@ -187,7 +187,7 @@ Example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob
     <frameRate fps="24"/>
  </DNN>
 ```
-### Upload & place all your content at Server
+### Upload & place all your content on the Server
 ```
 ./copy_files.sh // copies all necessary files to /var/www/html/[your serving directory]
 ```
