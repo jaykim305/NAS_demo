@@ -32,17 +32,16 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
         ```
         sudo docker build -t nas-demo
         ```
-    - Run docker and execute rest of the instruction inside the docker 
-        ```
-        sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo jaykim305/nas-demo:v1 /bin/bash
-        ```
     - Or you can pull our docker image `jaykim305/nas-demo:v1`. 
         The image is based on Ubuntu 18.04,  pytorch-cuda=11.8.  
         This might takes some time due to large image size.
         ```
         sudo docker pull jaykim305/nas-demo:v1
-        ```        
-
+        ```                
+    - Run docker and execute rest of the instruction inside the docker 
+        ```
+        sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo jaykim305/nas-demo:v1 /bin/bash
+        ```
 - Disable cache in Chrome browser. Refer to [this.](https://www.webinstinct.com/faq/how-to-disable-browser-cache#:~:text=When%20you're%20in%20Google,the%20box%20to%20Disable%20cache.)
 
 ### Server-side (CDN server)
