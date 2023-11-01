@@ -16,8 +16,8 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 
 ## Prerequisites
 - Client (Player) OS: Ubuntu 18.04 or higher, Chrome Browser. (Any browser should work but only checked with Chrome).
-- Client (Player) HW: NVIDIA GPU (2080 ti or better is recommended for real-time SR processing)
-- Server (CDN): lighttpd or apache2 webserver
+- Client (Player) HW: NVIDIA GPU (2080 ti or better is recommended for real-time SR processing).
+- Server (CDN): lighttpd or apache2 webserver.
 - Dataset: DASH video chunks and NAS DNN Chunks. These are served at the CDN server. 
 
 ## Setup
@@ -38,27 +38,28 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
         ```
         sudo docker pull jaykim305/nas-demo:v1
         ```                
-    - Run docker and execute rest of the instruction inside the docker 
+    - Run docker and execute rest of the instruction inside the docker.
         ```
         sudo docker run -it --gpus all -p 8333:8333 -p 5000:5000 -v $HOME/NAS_demo:/root/NAS_demo jaykim305/nas-demo:v1 /bin/bash
         ```
 - Disable cache in Chrome browser. Refer to [this.](https://www.webinstinct.com/faq/how-to-disable-browser-cache#:~:text=When%20you're%20in%20Google,the%20box%20to%20Disable%20cache.)
 
 ### Server-side (CDN server)
-In this setup, we provide the dataset [here.](xx) Download and place it at your serving directory of your webserver.  
+In this setup, we provide the dataset [here.](xx)   
+Download and place it at your serving directory of your webserver. You can do this by following the instructions below.   
 To use your own video and trained DNN for this demo, go to [Testing with your own video.](#testing-with-your-own-video)
-- Install and start lighttpd (or apache2)
+- Install and start lighttpd (or apache2).
     ```
     sudo apt-get install lighttpd
     sudo systemctl start lighttpd
     sudo systemctl enable lighttpd
     sudo systemctl status lighttpd
     ```
-- Download our dataset and copy it to ```/var/www/html```
+- Download our dataset and copy it to ```/var/www/html```.
     ```
     sudo cp -r [dataset] /var/www/html/[your_dir_name]
     ```
-    - The structure should look like this:
+    The structure should look like this:
     ```
     /var/www/html/[your_dir_name]
     ├── dash.all.debug.js                   # dash.js code
@@ -78,7 +79,7 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ├── robustMPC.html
         ├── BufferBased.html 
     ```
-- Change lighttpd config and restart
+- Change lighttpd config and restart.
     - Add `server.dir-listing = "enable"` in `/etc/lighttpd/lighttpd.conf`
     - Restart 
         ```
