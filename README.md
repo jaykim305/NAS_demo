@@ -45,7 +45,7 @@ For the RL-based ABR such as NAS and Pensieve, we provide the pre-trained RL mod
 - Disable cache in Chrome browser. Refer to [this.](https://www.webinstinct.com/faq/how-to-disable-browser-cache#:~:text=When%20you're%20in%20Google,the%20box%20to%20Disable%20cache.)
 
 ### Server-side (CDN server)
-In this setup, we provide the dataset [here.](xx)   
+In this setup, we provide the dataset [here.](https://www.dropbox.com/scl/fo/quk9mvt634ljii0nu0gux/h?rlkey=anenzl4wfrlvmpf210l29us6k&dl=0)   
 Download and place it in your serving directory of your webserver. You can do this by following the instructions below.   
 To use your own video and trained DNN for this demo, go to [Testing with your own video.](#testing-with-your-own-video)
 - Install and start lighttpd (or apache2).
@@ -79,7 +79,9 @@ To use your own video and trained DNN for this demo, go to [Testing with your ow
         ├── robustMPC.html
         ├── BufferBased.html 
     ```
-- Change lighttpd config and restart.
+- Replace the `<DNN url="<your webserver>/<your serving directory>/<content>">` in `multi_resolution_DNN.mpd` with your server's URL followed by the path to your content.
+
+- Modify lighttpd config and restart.
     - Add `server.dir-listing = "enable"` in `/etc/lighttpd/lighttpd.conf`
     - Restart 
         ```
@@ -113,7 +115,7 @@ Options:
 - `-g`: gpu device number
 - `-q`: DNN quality. Choices: Low, Medium, High, Ultra. Refer to [NAS public repo](https://github.com/kaist-ina/NAS_public).
 
-For the provided [dataset](xx), we provide the ultra DNN quality. Therefore, you should set `-q utlra`.
+For the provided [dataset](https://www.dropbox.com/scl/fo/quk9mvt634ljii0nu0gux/h?rlkey=anenzl4wfrlvmpf210l29us6k&dl=0), we provide the ultra DNN quality. Therefore, you should set `-q utlra`.
 ### Play video with Chrome browser
 Access the HTML webpage in your browser using the following address format: 
 ```
@@ -158,7 +160,7 @@ By doing so, you'll notice a noticeable improvement in video quality.  You can u
     ```
 ### Add DNN config in MPD file
 - Add the following DNN config in `mult_resolution.mpd` and save it as `multi_resolution_DNN.mpd`.  
-An example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob/8d572007c23ae0f140fb43e05f86a5a706668ed2/html/multi_resolution_DNN.mpd#L24)
+An example MPD file can be found [here.](https://github.com/jaykim305/NAS_demo/blob/8d572007c23ae0f140fb43e05f86a5a706668ed2/html/multi_resolution_DNN.mpd#L24). Also, replace the `DNN url=` part with your server's URL.
 ```
  <DNN url="<your webserver>/<your serving directory>/<content>">
 	<Representation id="low">
