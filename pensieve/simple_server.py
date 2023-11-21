@@ -63,6 +63,7 @@ def create_logfile(sr_quality, sr_aware, name):
             #log_path = os.path.join(opt.train_logfile[:-3], '{}_{}_{}_{}_'.format(LOG_FILE_DEFAULT, name,opt.content,opt.quality))
             
             log_path = os.path.join(opt.realworld_path, '{}_{}_{}_{}_PARSEHERE{}'.format(LOG_FILE_DEFAULT,algo,opt.reward,opt.content, name))
+        print(log_path)
         log_file = open(log_path, 'w')
             
         return log_file

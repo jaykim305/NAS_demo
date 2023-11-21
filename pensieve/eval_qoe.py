@@ -50,7 +50,7 @@ def eval(opt):
                 eff_bitrate = eff_bitrates[q_idx]
             
             
-            # print(eff_bitrate)
+            print(eff_bitrate, float(parse[3]))
             psnr.append(eff_psnrs[q_idx])            
             bitrate.append(float(eff_bitrate)/M_IN_K)
             rebuf.append(float(parse[3]))
