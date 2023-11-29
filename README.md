@@ -228,6 +228,11 @@ If you use our work for research, please cite it.
     year={2018}
 }
 ```
+### Commercial usage
+
+* `BY-NC-SA` – [Attribution-NonCommercial-ShareAlike](https://github.com/idleberg/Creative-Commons-Markdown/blob/master/4.0/by-nc-sa.markdown)
+
+NAS is currently protected under the patent and is retricted to be used for the commercial usage.
 
 ## Reference
 - [Pensieve (SIGCOMM'17) repository](https://github.com/hongzimao/pensieve) for Pensieve ABR server.
